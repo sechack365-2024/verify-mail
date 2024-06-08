@@ -8,4 +8,5 @@
 # Getting Started
 - `git clone https://github.com/sechack365-2024-1b/verify-mail.git`
 - `cd verify-mail.git`
+- `docker compose run -w /app --rm front npm install`
 - `docker compose up`
