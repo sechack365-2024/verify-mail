@@ -1,9 +1,20 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import Controller
 
 app = FastAPI()
+
+# CORSミドルウェアの追加
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],  # 必要に応じて許可するメソッドを指定
+    allow_headers=["*"],  # 必要に応じて許可するヘッダーを指定
+)
+
 
 app.include_router(Controller.router)
 
