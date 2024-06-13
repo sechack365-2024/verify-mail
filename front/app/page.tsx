@@ -1,24 +1,19 @@
 'use client';
-import {ContactForm}    from "./Form";
-import {useContactForm} from "./ContactForm";
-import {ErrorSnackbar}  from "./ErrorSnackbar";
+import { MailForm } from './components/form/MailForm';
+import { ErrorCheckEmailAddress } from './components/form/ErrorCheckEmailAddress';
+import { useMailForm } from '@/app/service/form/use-mail-form';
+import { ConfirmDialog } from "@/app/components/confirm/ConfirmDialog"
 
-export default function Page() {
 
-   const { hasError, isLoading, sendData, closeError } = useContactForm();
+export default function Home() {
+  const { hasError, isLoading, isOpenDialog, closeError, closeDialog, checkEmailAddress } = useMailForm();
 
-   return (
-        <div style={{ //要素を中央寄せ
-            textAlign: 'center',
-            padding: 'auto',
-        }}>
+  return (
+    <main>
+      <MailForm onSubmit={checkEmailAddress}isLoading={isLoading} />
+      <ConfirmDialog isOpen={isOpenDialog} closeDialog={closeDialog}/>
+      <ErrorCheckEmailAddress hasError={hasError} closeError={closeError} />
+    </main>
 
-        <h1 style={{ fontSize: '2em', margin: '20px 0' }}>Vrify Mail</h1>
-
-        <ContactForm onSubmit={sendData} isLoading={isLoading} />
-
-        <ErrorSnackbar hasError={hasError} closeError={closeError} />
-
-       </div>
-   );
-};
+  );
+}
