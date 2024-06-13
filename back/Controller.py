@@ -9,36 +9,6 @@ import requests
 
 router = APIRouter(tags=["Demo"], default_response_class=ORJSONResponse)
 
-@router.get(
-    path="/new",
-    status_code=status.HTTP_200_OK,    
-    responses={
-        status.HTTP_200_OK: {
-            "description": "this is hello world",
-        },
-        status.HTTP_500_INTERNAL_SERVER_ERROR: {
-            "description": "Internal server error"
-        }
-    }
-)
-
-async def new():
-    try:        
-        return ORJSONResponse(
-                status_code=status.HTTP_200_OK,
-                content=(
-                    {
-                        "message": f"はろー"
-                    }
-                )
-            )
-        
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e)
-        )
-
 @router.post(
     path="/verify-mail",
     status_code=status.HTTP_200_OK,    
@@ -55,6 +25,7 @@ async def new():
 async def verify_mail(request: Request):
     data = await request.json()
     result = subprocess.run(['/root/.local/bin/ghunt', 'email', data['email']], capture_output=True, text=True)
+    print(result.stdout)
     user_info = parse_ghunt_output(result.stdout)
     try:
         return ORJSONResponse(
@@ -85,6 +56,8 @@ def parse_ghunt_output(output):
     mailaddress_match = re.search(r"[a-zA-Z0-9._%+-]+@gmail\.com", output)
     if mailaddress_match:
         data["email"] = mailaddress_match.group()
+    
+    print(data)
         
 
 # URLからHTMLを取得
