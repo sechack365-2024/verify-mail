@@ -21,6 +21,7 @@ services:
       - ./back/:/usr/src/app
     ports:
       - "8000:8000"
+      - "60067:60067"
     networks:
       - default
        
