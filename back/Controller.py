@@ -57,10 +57,7 @@ def parse_ghunt_output(output):
     if mailaddress_match:
         data["email"] = mailaddress_match.group()
     
-    print(data)
-        
-
-# URLからHTMLを取得
+    # URLからHTMLを取得
     response = requests.get(data["profile"])
     html = response.text
 
@@ -68,7 +65,7 @@ def parse_ghunt_output(output):
     pattern = r'<meta\s+content="Contributions by\s+([^"]+)"\s+itemprop="name">'
     match = re.search(pattern, html)
 
-    # "米倉順子"だけを取り出す
+    # 名前を取り出す
     if match:
         name = match.group(1)
         data["name"] = name
